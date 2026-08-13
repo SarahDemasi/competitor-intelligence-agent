@@ -1,0 +1,363 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Competitor Intelligence Dashboard</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+        
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+        
+        header {
+            background: white;
+            border-radius: 8px;
+            padding: 20px;
+            margin-bottom: 30px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        h1 {
+            color: #333;
+            font-size: 28px;
+        }
+        
+        .btn {
+            padding: 10px 20px;
+            background: #667eea;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 14px;
+            transition: background 0.3s;
+        }
+        
+        .btn:hover {
+            background: #5568d3;
+        }
+        
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+        
+        .stat-card {
+            background: white;
+            border-radius: 8px;
+            padding: 20px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        
+        .stat-label {
+            color: #666;
+            font-size: 12px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 10px;
+        }
+        
+        .stat-value {
+            color: #333;
+            font-size: 32px;
+            font-weight: bold;
+        }
+        
+        .main-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+        
+        @media (max-width: 1024px) {
+            .main-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+        
+        .panel {
+            background: white;
+            border-radius: 8px;
+            padding: 20px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        
+        .panel h2 {
+            color: #333;
+            margin-bottom: 20px;
+            font-size: 18px;
+            border-bottom: 2px solid #667eea;
+            padding-bottom: 10px;
+        }
+        
+        .competitor-list {
+            list-style: none;
+        }
+        
+        .competitor-item {
+            padding: 12px;
+            border-bottom: 1px solid #eee;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .competitor-item:last-child {
+            border-bottom: none;
+        }
+        
+        .competitor-name {
+            font-weight: 500;
+            color: #333;
+        }
+        
+        .status-badge {
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: bold;
+        }
+        
+        .status-checked {
+            background: #d4edda;
+            color: #155724;
+        }
+        
+        .status-unchecked {
+            background: #f8d7da;
+            color: #721c24;
+        }
+        
+        .changes-list {
+            list-style: none;
+            max-height: 500px;
+            overflow-y: auto;
+        }
+        
+        .change-item {
+            padding: 12px;
+            border-left: 4px solid #667eea;
+            background: #f9f9f9;
+            margin-bottom: 10px;
+            border-radius: 4px;
+        }
+        
+        .change-competitor {
+            font-weight: bold;
+            color: #667eea;
+            font-size: 14px;
+        }
+        
+        .change-time {
+            color: #999;
+            font-size: 12px;
+            margin-top: 4px;
+        }
+        
+        .change-keywords {
+            margin-top: 8px;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 5px;
+        }
+        
+        .keyword-tag {
+            background: #667eea;
+            color: white;
+            padding: 2px 8px;
+            border-radius: 3px;
+            font-size: 11px;
+        }
+        
+        .loading {
+            text-align: center;
+            padding: 20px;
+            color: #666;
+        }
+        
+        .error {
+            background: #f8d7da;
+            color: #721c24;
+            padding: 12px;
+            border-radius: 4px;
+            margin-bottom: 20px;
+        }
+        
+        .success {
+            background: #d4edda;
+            color: #155724;
+            padding: 12px;
+            border-radius: 4px;
+            margin-bottom: 20px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <div>
+                <h1>🎯 Competitor Intelligence Dashboard</h1>
+            </div>
+            <button class="btn" onclick="triggerMonitoring()">🔄 Run Monitoring Now</button>
+        </header>
+        
+        <div id="message"></div>
+        
+        <div class="stats-grid">
+            <div class="stat-card">
+                <div class="stat-label">Total Competitors</div>
+                <div class="stat-value" id="total-competitors">0</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-label">Recent Changes Detected</div>
+                <div class="stat-value" id="total-changes">0</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-label">Last Updated</div>
+                <div class="stat-value" id="last-updated" style="font-size: 16px;">--</div>
+            </div>
+        </div>
+        
+        <div class="main-grid">
+            <div class="panel">
+                <h2>📊 Competitor Status</h2>
+                <ul class="competitor-list" id="competitors-list">
+                    <li class="competitor-item">
+                        <span class="loading">Loading competitors...</span>
+                    </li>
+                </ul>
+            </div>
+            
+            <div class="panel">
+                <h2>⚡ Recent Changes</h2>
+                <ul class="changes-list" id="changes-list">
+                    <li class="loading">Loading changes...</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+    
+    <script>
+        // Load dashboard data
+        function loadDashboard() {
+            fetch('/api/summary')
+                .then(response => response.json())
+                .then(data => {
+                    document.getElementById('total-competitors').textContent = data.total_competitors;
+                    document.getElementById('total-changes').textContent = data.recent_changes.length;
+                    
+                    const lastUpdated = new Date(data.last_updated);
+                    document.getElementById('last-updated').textContent = lastUpdated.toLocaleTimeString();
+                })
+                .catch(error => console.error('Error loading summary:', error));
+            
+            loadCompetitors();
+            loadChanges();
+        }
+        
+        function loadCompetitors() {
+            fetch('/api/competitors')
+                .then(response => response.json())
+                .then(data => {
+                    const list = document.getElementById('competitors-list');
+                    list.innerHTML = '';
+                    
+                    for (const [name, info] of Object.entries(data)) {
+                        const item = document.createElement('li');
+                        item.className = 'competitor-item';
+                        
+                        const statusClass = info.last_checked ? 'status-checked' : 'status-unchecked';
+                        const statusText = info.last_checked ? '✓ Checked' : '⊘ Pending';
+                        
+                        item.innerHTML = `
+                            <span class="competitor-name">${name}</span>
+                            <span class="status-badge ${statusClass}">${statusText}</span>
+                        `;
+                        list.appendChild(item);
+                    }
+                })
+                .catch(error => console.error('Error loading competitors:', error));
+        }
+        
+        function loadChanges() {
+            fetch('/api/changes')
+                .then(response => response.json())
+                .then(data => {
+                    const list = document.getElementById('changes-list');
+                    list.innerHTML = '';
+                    
+                    if (data.length === 0) {
+                        list.innerHTML = '<li class="loading">No changes detected yet</li>';
+                        return;
+                    }
+                    
+                    // Sort by most recent first
+                    data.reverse().forEach(change => {
+                        const item = document.createElement('li');
+                        item.className = 'change-item';
+                        
+                        const time = new Date(change.timestamp).toLocaleString();
+                        const keywords = change.keywords_found.join(', ') || 'No keywords';
+                        
+                        item.innerHTML = `
+                            <div class="change-competitor">${change.competitor}</div>
+                            <div class="change-time">${time}</div>
+                            <div class="change-keywords">
+                                ${change.keywords_found.map(k => `<span class="keyword-tag">${k}</span>`).join('')}
+                            </div>
+                        `;
+                        list.appendChild(item);
+                    });
+                })
+                .catch(error => console.error('Error loading changes:', error));
+        }
+        
+        function triggerMonitoring() {
+            const messageDiv = document.getElementById('message');
+            messageDiv.innerHTML = '<div class="loading">Running monitoring...</div>';
+            
+            fetch('/api/monitor')
+                .then(response => response.json())
+                .then(data => {
+                    if (data.status === 'success') {
+                        messageDiv.innerHTML = `<div class="success">✓ Monitoring complete! Found ${data.changes_found} change(s)</div>`;
+                    } else {
+                        messageDiv.innerHTML = `<div class="error">✗ Error: ${data.message}</div>`;
+                    }
+                    loadDashboard();
+                    setTimeout(() => messageDiv.innerHTML = '', 5000);
+                })
+                .catch(error => {
+                    messageDiv.innerHTML = `<div class="error">✗ Error: ${error.message}</div>`;
+                    console.error('Error triggering monitoring:', error);
+                });
+        }
+        
+        // Load dashboard on page load
+        loadDashboard();
+        
+        // Refresh data every 30 seconds
+        setInterval(loadDashboard, 30000);
+    </script>
+</body>
+</html>
