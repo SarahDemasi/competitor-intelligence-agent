@@ -1,0 +1,138 @@
+{
+  "AMP": {
+    "Diversified Growth": [
+      "Canstar 5-Star Rating",
+      "Investment Trends - Recommended",
+      "Rating: Strong Performance"
+    ],
+    "Balanced": [
+      "Canstar 4-Star Rating",
+      "Money Magazine - Approved",
+      "Super Ratings - Recommended"
+    ],
+    "Conservative": [
+      "Canstar 4-Star Rating",
+      "ASIC Approved - MIS"
+    ]
+  },
+  "AustralianSuper": {
+    "Balanced": [
+      "Chant West - Top Fund",
+      "Investment Trends - 5-Star Rating",
+      "Super Ratings - Recommended",
+      "Money Magazine - Gold Award"
+    ],
+    "Growth": [
+      "Chant West - Gold Rating",
+      "Investment Trends - Top Performer",
+      "Canstar - Recommended"
+    ],
+    "Conservative": [
+      "Chant West - Recommended",
+      "Super Ratings - 4-Star Rating"
+    ]
+  },
+  "Aware Super": {
+    "Diversified Growth": [
+      "Investment Trends - Strong",
+      "Morningstar - Recommended",
+      "ESG Rating - A+ (Heron Partnership)"
+    ],
+    "Balanced": [
+      "Canstar - Recommended",
+      "Investment Trends - 4-Star Rating"
+    ]
+  },
+  "Colonial First State": {
+    "Growth": [
+      "Lonsec - Approved",
+      "Investment Trends - Recommended",
+      "Canstar - 4-Star Rating"
+    ],
+    "International Shares": [
+      "Morningstar - Highly Recommended",
+      "Lipper - Top Quartile",
+      "Investment Trends - Strong Performance"
+    ],
+    "Balanced": [
+      "Canstar - Recommended",
+      "Super Ratings - 4-Star Rating"
+    ]
+  },
+  "REST Industry Super": {
+    "Balanced Growth": [
+      "Chant West - Top Fund",
+      "Investment Trends - 5-Star Rating",
+      "Money Magazine - Recommended",
+      "Super Ratings - Gold Rating"
+    ],
+    "Growth": [
+      "Chant West - Gold",
+      "Investment Trends - Top Performer",
+      "Canstar - Highly Recommended"
+    ]
+  },
+  "UniSuper": {
+    "Balanced": [
+      "Investment Trends - Recommended",
+      "Super Ratings - 4-Star Rating",
+      "Canstar - Recommended"
+    ],
+    "Growth": [
+      "Investment Trends - 5-Star Rating",
+      "Morningstar - Recommended"
+    ]
+  },
+  "MLC": {
+    "Balanced": [
+      "Canstar - 4-Star Rating",
+      "Investment Trends - Recommended",
+      "Money Magazine - Approved"
+    ],
+    "Growth": [
+      "Lipper - Top Quartile",
+      "Morningstar - Recommended"
+    ]
+  },
+  "HostPlus": {
+    "Balanced": [
+      "Chant West - Recommended",
+      "Super Ratings - Recommended",
+      "Investment Trends - 4-Star Rating"
+    ],
+    "Growth": [
+      "Investment Trends - Recommended",
+      "Canstar - Recommended"
+    ]
+  },
+  "HESTA": {
+    "Balanced": [
+      "Chant West - Recommended",
+      "Investment Trends - 5-Star Rating",
+      "Super Ratings - Gold Award",
+      "Money Magazine - Recommended"
+    ],
+    "Growth": [
+      "Investment Trends - Recommended",
+      "Canstar - 4-Star Rating"
+    ]
+  },
+  "Industry SuperFunds": {
+    "Balanced": [
+      "Canstar - Recommended",
+      "Investment Trends - Recommended",
+      "Super Ratings - 4-Star Rating"
+    ]
+  },
+  "Australian Retirement Trust": {
+    "Balanced": [
+      "Canstar - Recommended",
+      "Investment Trends - Approved",
+      "Super Ratings - Recommended"
+    ],
+    "Growth": [
+      "Investment Trends - 4-Star Rating",
+      "Canstar - Recommended"
+    ]
+  }
+}

@@ -267,6 +267,125 @@
             border-radius: 4px;
             margin-bottom: 20px;
         }
+        
+        .ratings-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 15px;
+        }
+        
+        .rating-card {
+            background: #f9f9f9;
+            border-left: 4px solid #667eea;
+            padding: 15px;
+            border-radius: 4px;
+            margin-bottom: 10px;
+        }
+        
+        .rating-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 10px;
+        }
+        
+        .rating-name {
+            font-weight: bold;
+            color: #333;
+            font-size: 16px;
+        }
+        
+        .rating-stars {
+            font-size: 24px;
+            color: #ffc107;
+        }
+        
+        .star-value {
+            background: #ffc107;
+            color: white;
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 14px;
+            font-weight: bold;
+        }
+        
+        .awards-section {
+            margin-top: 10px;
+        }
+        
+        .awards-label {
+            font-size: 12px;
+            color: #666;
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
+        
+        .award-tag {
+            display: inline-block;
+            background: #667eea;
+            color: white;
+            padding: 4px 10px;
+            border-radius: 3px;
+            font-size: 12px;
+            margin-right: 5px;
+            margin-bottom: 5px;
+        }
+        
+        .no-data {
+            color: #999;
+            font-style: italic;
+        }
+        
+        .product-card {
+            background: #f0f4ff;
+            border: 1px solid #667eea;
+            border-radius: 8px;
+            padding: 15px;
+            margin-bottom: 15px;
+        }
+        
+        .product-name {
+            font-weight: bold;
+            color: #667eea;
+            font-size: 16px;
+            margin-bottom: 10px;
+            padding-bottom: 8px;
+            border-bottom: 2px solid #667eea;
+        }
+        
+        .brand-name {
+            color: #333;
+            font-size: 18px;
+            font-weight: bold;
+            margin-bottom: 15px;
+            padding: 10px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border-radius: 4px;
+        }
+        
+        .award-list {
+            list-style: none;
+            margin: 0;
+            padding: 0;
+        }
+        
+        .award-list-item {
+            padding: 6px 0;
+            border-bottom: 1px solid #e0e0e0;
+            font-size: 14px;
+        }
+        
+        .award-list-item:last-child {
+            border-bottom: none;
+        }
+        
+        .award-list-item::before {
+            content: "✓ ";
+            color: #28a745;
+            font-weight: bold;
+            margin-right: 8px;
+        }
     </style>
 </head>
 <body>
@@ -292,6 +411,20 @@
             <div class="stat-card">
                 <div class="stat-label">Last Updated</div>
                 <div class="stat-value" id="last-updated" style="font-size: 16px;">--</div>
+            </div>
+        </div>
+        
+        <div class="panel" style="margin-bottom: 30px;">
+            <h2>🏆 Awards by Brand & Product</h2>
+            <div id="products-awards-container" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(400px, 1fr)); gap: 20px;">
+                <div class="loading">Loading awards data...</div>
+            </div>
+        </div>
+
+        <div class="panel" style="margin-bottom: 30px;">
+            <h2>🏆 Award Ratings Comparison</h2>
+            <div class="ratings-grid" id="ratings-grid">
+                <div class="loading">Loading award ratings...</div>
             </div>
         </div>
         
@@ -580,12 +713,12 @@
                 .then(data => {
                     document.getElementById('total-competitors').textContent = data.total_competitors;
                     document.getElementById('total-changes').textContent = data.recent_changes.length;
-                    
+
                     const lastUpdated = new Date(data.last_updated);
                     document.getElementById('last-updated').textContent = lastUpdated.toLocaleTimeString();
                 })
                 .catch(error => console.error('Error loading summary:', error));
-            
+
             loadCompetitors();
             loadChanges();
             loadFees();
@@ -593,6 +726,140 @@
             loadEducation();
             loadMediaInvestment();
             loadAwards();
+            loadProductsAndAwards();
+            loadAwardRatings();
+        }
+
+        function loadProductsAndAwards() {
+            fetch('/api/products-and-awards')
+                .then(response => response.json())
+                .then(data => {
+                    const container = document.getElementById('products-awards-container');
+                    container.innerHTML = '';
+
+                    if (Object.keys(data).length === 0) {
+                        container.innerHTML = '<div class="loading">No award data available</div>';
+                        return;
+                    }
+
+                    Object.entries(data).forEach(([brand, products]) => {
+                        const brandDiv = document.createElement('div');
+                        brandDiv.className = 'panel';
+                        brandDiv.style.margin = '0';
+
+                        let brandHTML = `<div class="brand-name">${brand}</div>`;
+
+                        if (Object.keys(products).length === 0) {
+                            brandHTML += '<div class="no-data">No award data available</div>';
+                        } else {
+                            Object.entries(products).forEach(([product, awards]) => {
+                                brandHTML += `
+                                    <div class="product-card">
+                                        <div class="product-name">${product}</div>
+                                        <ul class="award-list">
+                                            ${awards.map(award => `<li class="award-list-item">${award}</li>`).join('')}
+                                        </ul>
+                                    </div>
+                                `;
+                            });
+                        }
+
+                        brandDiv.innerHTML = brandHTML;
+                        container.appendChild(brandDiv);
+                    });
+                })
+                .catch(error => console.error('Error loading products and awards:', error));
+        }
+
+        function loadAwardRatings() {
+            fetch('/api/award-ratings')
+                .then(response => response.json())
+                .then(data => {
+                    const grid = document.getElementById('ratings-grid');
+                    grid.innerHTML = '';
+
+                    const sorted = Object.entries(data).sort((a, b) => {
+                        const starsA = a[1].stars || 0;
+                        const starsB = b[1].stars || 0;
+                        return starsB - starsA;
+                    });
+
+                    if (sorted.length === 0) {
+                        grid.innerHTML = '<div class="loading">No award data available</div>';
+                        return;
+                    }
+
+                    sorted.forEach(([name, ratings]) => {
+                        const card = document.createElement('div');
+                        card.className = 'rating-card';
+
+                        let starsHtml = '';
+                        if (ratings.stars) {
+                            const fullStars = Math.floor(ratings.stars);
+                            const hasHalf = ratings.stars % 1 !== 0;
+                            let starDisplay = '★'.repeat(fullStars);
+                            if (hasHalf) starDisplay += '½';
+                            starDisplay += '☆'.repeat(5 - Math.ceil(ratings.stars));
+
+                            starsHtml = `
+                                <div class="star-value">${ratings.stars} / 5 Stars</div>
+                                <div class="rating-stars" style="margin-top: 5px;">${starDisplay}</div>
+                            `;
+                        }
+
+                        let awardsHtml = '';
+                        if (ratings.awards && ratings.awards.length > 0) {
+                            awardsHtml = `
+                                <div class="awards-section">
+                                    <div class="awards-label">Awards & Recognition:</div>
+                                    <div>
+                                        ${ratings.awards.map(award => `<span class="award-tag">${award}</span>`).join('')}
+                                    </div>
+                                </div>
+                            `;
+                        }
+
+                        let knownAwardsHtml = '';
+                        if (ratings.known_awards && ratings.known_awards.length > 0) {
+                            knownAwardsHtml = `
+                                <div class="awards-section">
+                                    <div class="awards-label">Industry Awards & Certifications:</div>
+                                    <div>
+                                        ${ratings.known_awards.map(award => `<span class="award-tag" style="background: #667eea;">${award}</span>`).join('')}
+                                    </div>
+                                </div>
+                            `;
+                        }
+
+                        let keywordsHtml = '';
+                        if (ratings.rating_keywords_found && ratings.rating_keywords_found.length > 0) {
+                            keywordsHtml = `
+                                <div class="awards-section">
+                                    <div class="awards-label">Rating Indicators:</div>
+                                    <div>
+                                        ${ratings.rating_keywords_found.map(kw => `<span class="award-tag" style="background: #28a745;">${kw}</span>`).join('')}
+                                    </div>
+                                </div>
+                            `;
+                        }
+
+                        if (!starsHtml && !awardsHtml && !keywordsHtml) {
+                            starsHtml = '<div class="no-data">No award ratings data available</div>';
+                        }
+
+                        card.innerHTML = `
+                            <div class="rating-header">
+                                <div class="rating-name">${name}</div>
+                            </div>
+                            ${starsHtml}
+                            ${knownAwardsHtml}
+                            ${awardsHtml}
+                            ${keywordsHtml}
+                        `;
+                        grid.appendChild(card);
+                    });
+                })
+                .catch(error => console.error('Error loading award ratings:', error));
         }
         
         function loadCompetitors() {
@@ -888,8 +1155,8 @@
         // Load dashboard on page load
         loadDashboard();
         
-        // Refresh data every 30 seconds
-        setInterval(loadDashboard, 30000);
+        // Refresh data every 60 seconds
+        setInterval(loadDashboard, 60000);
     </script>
 </body>
 </html>

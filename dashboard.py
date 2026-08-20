@@ -95,6 +95,39 @@ def get_media_investment():
     media_data = agent.get_media_investment_comparison()
     return jsonify(media_data)
 
+@app.route('/api/award-ratings')
+def get_award_ratings():
+    """Get award ratings comparison across all competitors"""
+    competitors_data = agent.data.get("competitors", {})
+    award_ratings = {}
+
+    for name, data in competitors_data.items():
+        if data.get("award_ratings"):
+            award_ratings[name] = data["award_ratings"]
+        else:
+            award_ratings[name] = {
+                "competitor": name,
+                "stars": None,
+                "awards": [],
+                "rating_keywords_found": []
+            }
+
+    return jsonify(award_ratings)
+
+@app.route('/api/products-and-awards')
+def get_products_and_awards():
+    """Get products and their awards by competitor"""
+    competitors_data = agent.data.get("competitors", {})
+    products_awards = {}
+
+    for name, data in competitors_data.items():
+        if data.get("products_and_awards"):
+            products_awards[name] = data["products_and_awards"]
+        else:
+            products_awards[name] = {}
+
+    return jsonify(products_awards)
+
 if __name__ == '__main__':
     print(f"Starting dashboard on http://{DASHBOARD_HOST}:{DASHBOARD_PORT}")
     app.run(host=DASHBOARD_HOST, port=DASHBOARD_PORT, debug=True)

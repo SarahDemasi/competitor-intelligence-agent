@@ -1,6 +1,6 @@
 """
 Competitor Intelligence Agent
-Monitors competitor websites and tracks changes
+Monitors competitor websites and tracks changes and awards by product
 """
 
 import requests
@@ -10,6 +10,26 @@ import os
 from datetime import datetime
 from config import COMPETITORS, KEYWORDS, DATABASE_FILE, ADMIN_FEES, INVESTMENT_FEES, PENSION_ACCOUNT_FEES, PENSION_BONUSES, INVESTMENT_PERFORMANCE, RETIREMENT_EDUCATION, AWARDS_RANKINGS, MEDIA_INVESTMENT
 import hashlib
+import re
+
+# Known rating sources to look for
+RATING_SOURCES = [
+    "Chant West",
+    "Super Ratings",
+    "Money Magazine",
+    "Canstar",
+    "AAA",
+    "Heron",
+    "Investment Trends",
+    "ASIC",
+    "APRA",
+    "Morningstar",
+    "Lonsec",
+    "Lipper",
+    "Vanguard",
+    "BlackRock",
+    "Stockspot"
+]
 
 class CompetitorIntelligenceAgent:
     """Main agent for monitoring competitor activity"""
@@ -73,7 +93,8 @@ class CompetitorIntelligenceAgent:
                 "url": COMPETITORS[competitor_name],
                 "last_checked": None,
                 "content_hash": None,
-                "last_content": None
+                "last_content": None,
+                "products_and_awards": {}
             }
         
         competitor_data = self.data["competitors"][competitor_name]
@@ -87,6 +108,10 @@ class CompetitorIntelligenceAgent:
                 "timestamp": datetime.now().isoformat(),
                 "keywords_found": self.extract_keywords(new_content)
             })
+        
+        # Extract products and their awards
+        products_and_awards = self.extract_products_and_awards(new_content, competitor_name)
+        competitor_data["products_and_awards"] = products_and_awards
         
         # Update competitor data
         competitor_data["content_hash"] = new_hash
@@ -105,6 +130,49 @@ class CompetitorIntelligenceAgent:
                 found_keywords.append(keyword)
         
         return found_keywords
+    
+    def extract_products_and_awards(self, content, competitor_name):
+        """
+        Extract products and their associated awards/ratings from awards database
+        Returns: dict with products as keys and awards as values
+        """
+        # Try to load from awards database
+        awards_db_file = 'awards_database.json'
+        try:
+            with open(awards_db_file, 'r') as f:
+                awards_database = json.load(f)
+                if competitor_name in awards_database:
+                    return awards_database[competitor_name]
+        except:
+            pass
+        
+        return {}
+    
+    def extract_product_from_context(self, text, product_keywords):
+        """Extract product name from context around award"""
+        text_lower = text.lower()
+        
+        for keyword in product_keywords:
+            if keyword in text_lower:
+                # Try to extract a longer phrase containing the product keyword
+                pattern = rf'[\w\s]*{re.escape(keyword)}[\w\s]*'
+                match = re.search(pattern, text, re.IGNORECASE)
+                if match:
+                    product_phrase = match.group(0).strip()
+                    # Clean up and return if reasonable length
+                    if len(product_phrase) < 100:
+                        return product_phrase.title()
+        
+        return None
+    
+    def clean_award_text(self, text):
+        """Clean and normalize award text"""
+        # Remove extra whitespace
+        text = ' '.join(text.split())
+        # Truncate if too long
+        if len(text) > 200:
+            text = text[:197] + "..."
+        return text
     
     def monitor_competitors(self):
         """
