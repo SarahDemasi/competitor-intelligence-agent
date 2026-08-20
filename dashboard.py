@@ -65,6 +65,36 @@ def get_competitor_details(competitor_name):
         return jsonify(competitor_data)
     return jsonify({"error": "Competitor not found"}), 404
 
+@app.route('/api/fees')
+def get_fees():
+    """Get fee comparison data"""
+    fees_data = agent.get_fee_comparison()
+    return jsonify(fees_data)
+
+@app.route('/api/performance')
+def get_performance():
+    """Get investment performance comparison data"""
+    performance_data = agent.get_performance_comparison()
+    return jsonify(performance_data)
+
+@app.route('/api/education')
+def get_education():
+    """Get retirement education & guidance comparison data"""
+    education_data = agent.get_retirement_education_comparison()
+    return jsonify(education_data)
+
+@app.route('/api/awards')
+def get_awards():
+    """Get super fund awards and rankings comparison data"""
+    awards_data = agent.get_awards_comparison()
+    return jsonify(awards_data)
+
+@app.route('/api/media')
+def get_media_investment():
+    """Get competitor media investment spend by channel"""
+    media_data = agent.get_media_investment_comparison()
+    return jsonify(media_data)
+
 if __name__ == '__main__':
     print(f"Starting dashboard on http://{DASHBOARD_HOST}:{DASHBOARD_PORT}")
     app.run(host=DASHBOARD_HOST, port=DASHBOARD_PORT, debug=True)

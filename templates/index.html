@@ -148,6 +148,63 @@
             color: #721c24;
         }
         
+        .fee-table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        
+        .fee-table thead {
+            background: #f5f5f5;
+            border-bottom: 2px solid #ddd;
+        }
+        
+        .fee-table th {
+            padding: 12px;
+            text-align: left;
+            font-weight: 600;
+            color: #333;
+            font-size: 14px;
+        }
+        
+        .fee-table td {
+            padding: 12px;
+            border-bottom: 1px solid #eee;
+        }
+        
+        .fee-table tbody tr:hover {
+            background: #f9f9f9;
+        }
+        
+        .fee-value {
+            font-weight: bold;
+            color: #667eea;
+            font-size: 16px;
+        }
+        
+        .fee-lowest {
+            background: #d4edda;
+            color: #155724;
+            padding: 2px 6px;
+            border-radius: 3px;
+            font-size: 11px;
+            font-weight: bold;
+        }
+        
+        .performance-value {
+            font-weight: bold;
+            color: #28a745;
+            font-size: 16px;
+        }
+        
+        .performance-highest {
+            background: #d4edda;
+            color: #155724;
+            padding: 2px 6px;
+            border-radius: 3px;
+            font-size: 11px;
+            font-weight: bold;
+        }
+        
         .changes-list {
             list-style: none;
             max-height: 500px;
@@ -255,6 +312,264 @@
                 </ul>
             </div>
         </div>
+        
+        <div class="panel">
+            <h2>💰 Fee Comparison</h2>
+            <div style="display: grid; grid-template-columns: 1fr 1fr 1fr 1fr; gap: 20px;">
+                <div>
+                    <h3 style="color: #667eea; font-size: 16px; margin-bottom: 15px;">Admin Fees</h3>
+                    <table class="fee-table">
+                        <thead>
+                            <tr>
+                                <th>Competitor</th>
+                                <th>Annual Fee (%)</th>
+                            </tr>
+                        </thead>
+                        <tbody id="admin-fees-table-body">
+                            <tr><td colspan="2" class="loading">Loading fees...</td></tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div>
+                    <h3 style="color: #667eea; font-size: 16px; margin-bottom: 15px;">Investment Fees</h3>
+                    <table class="fee-table">
+                        <thead>
+                            <tr>
+                                <th>Competitor</th>
+                                <th>Annual Fee (%)</th>
+                            </tr>
+                        </thead>
+                        <tbody id="investment-fees-table-body">
+                            <tr><td colspan="2" class="loading">Loading fees...</td></tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div>
+                    <h3 style="color: #667eea; font-size: 16px; margin-bottom: 15px;">Pension Account Fees</h3>
+                    <table class="fee-table">
+                        <thead>
+                            <tr>
+                                <th>Competitor</th>
+                                <th>Annual Fee (%)</th>
+                            </tr>
+                        </thead>
+                        <tbody id="pension-fees-table-body">
+                            <tr><td colspan="2" class="loading">Loading fees...</td></tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div>
+                    <h3 style="color: #667eea; font-size: 16px; margin-bottom: 15px;">Pension Bonuses</h3>
+                    <table class="fee-table">
+                        <thead>
+                            <tr>
+                                <th>Competitor</th>
+                                <th>Annual Bonus (%)</th>
+                            </tr>
+                        </thead>
+                        <tbody id="pension-bonus-table-body">
+                            <tr><td colspan="2" class="loading">Loading bonuses...</td></tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+        
+        <div class="panel">
+            <h2>📈 Investment Performance Comparison (5-Year Average)</h2>
+            <div style="display: grid; grid-template-columns: 1fr 1fr 1fr 1fr; gap: 20px;">
+                <div>
+                    <h3 style="color: #667eea; font-size: 16px; margin-bottom: 15px;">Balanced Portfolio</h3>
+                    <table class="fee-table">
+                        <thead>
+                            <tr>
+                                <th>Competitor</th>
+                                <th>Annual Return (%)</th>
+                            </tr>
+                        </thead>
+                        <tbody id="balanced-performance-table-body">
+                            <tr><td colspan="2" class="loading">Loading performance...</td></tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div>
+                    <h3 style="color: #667eea; font-size: 16px; margin-bottom: 15px;">Growth Portfolio</h3>
+                    <table class="fee-table">
+                        <thead>
+                            <tr>
+                                <th>Competitor</th>
+                                <th>Annual Return (%)</th>
+                            </tr>
+                        </thead>
+                        <tbody id="growth-performance-table-body">
+                            <tr><td colspan="2" class="loading">Loading performance...</td></tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div>
+                    <h3 style="color: #667eea; font-size: 16px; margin-bottom: 15px;">High Growth Portfolio</h3>
+                    <table class="fee-table">
+                        <thead>
+                            <tr>
+                                <th>Competitor</th>
+                                <th>Annual Return (%)</th>
+                            </tr>
+                        </thead>
+                        <tbody id="high-growth-performance-table-body">
+                            <tr><td colspan="2" class="loading">Loading performance...</td></tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div>
+                    <h3 style="color: #667eea; font-size: 16px; margin-bottom: 15px;">Conservative Portfolio</h3>
+                    <table class="fee-table">
+                        <thead>
+                            <tr>
+                                <th>Competitor</th>
+                                <th>Annual Return (%)</th>
+                            </tr>
+                        </thead>
+                        <tbody id="conservative-performance-table-body">
+                            <tr><td colspan="2" class="loading">Loading performance...</td></tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+        
+        <div class="panel" style="grid-column: 1 / -1;">
+            <h2>📚 Retirement Education & Guidance</h2>
+            <div class="comparison-grid" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 20px;">
+                <div>
+                    <h3 style="color: #667eea; font-size: 16px; margin-bottom: 15px;">Hub Content Maturity</h3>
+                    <table class="fee-table">
+                        <thead>
+                            <tr>
+                                <th>Competitor</th>
+                                <th>Score (1-10)</th>
+                            </tr>
+                        </thead>
+                        <tbody id="hub-content-table-body">
+                            <tr><td colspan="2" class="loading">Loading data...</td></tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div>
+                    <h3 style="color: #667eea; font-size: 16px; margin-bottom: 15px;">Readiness Tools & Checklists</h3>
+                    <table class="fee-table">
+                        <thead>
+                            <tr>
+                                <th>Competitor</th>
+                                <th>Score (1-10)</th>
+                            </tr>
+                        </thead>
+                        <tbody id="readiness-tools-table-body">
+                            <tr><td colspan="2" class="loading">Loading data...</td></tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div>
+                    <h3 style="color: #667eea; font-size: 16px; margin-bottom: 15px;">Planning Journeys</h3>
+                    <table class="fee-table">
+                        <thead>
+                            <tr>
+                                <th>Competitor</th>
+                                <th>Score (1-10)</th>
+                            </tr>
+                        </thead>
+                        <tbody id="planning-journeys-table-body">
+                            <tr><td colspan="2" class="loading">Loading data...</td></tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div>
+                    <h3 style="color: #667eea; font-size: 16px; margin-bottom: 15px;">Seminars & Webinars</h3>
+                    <table class="fee-table">
+                        <thead>
+                            <tr>
+                                <th>Competitor</th>
+                                <th>Score (1-10)</th>
+                            </tr>
+                        </thead>
+                        <tbody id="seminars-table-body">
+                            <tr><td colspan="2" class="loading">Loading data...</td></tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div>
+                    <h3 style="color: #667eea; font-size: 16px; margin-bottom: 15px;">Age-Based Communications</h3>
+                    <table class="fee-table">
+                        <thead>
+                            <tr>
+                                <th>Competitor</th>
+                                <th>Score (1-10)</th>
+                            </tr>
+                        </thead>
+                        <tbody id="age-communications-table-body">
+                            <tr><td colspan="2" class="loading">Loading data...</td></tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div>
+                    <h3 style="color: #667eea; font-size: 16px; margin-bottom: 15px;">Age Pension Education</h3>
+                    <table class="fee-table">
+                        <thead>
+                            <tr>
+                                <th>Competitor</th>
+                                <th>Score (1-10)</th>
+                            </tr>
+                        </thead>
+                        <tbody id="age-pension-table-body">
+                            <tr><td colspan="2" class="loading">Loading data...</td></tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+        <div class="panel" style="grid-column: 1 / -1;">
+            <h2>📣 Media Investment by Channel ($AUD)</h2>
+            <p style="margin: 0 0 12px; color: #475569; font-size: 13px; font-weight: 600;">Period: 1 July 2025 to 30 June 2026</p>
+            <table class="fee-table" style="width: 100%;">
+                <thead>
+                    <tr>
+                        <th>Competitor</th>
+                        <th>Digital ($AUD)</th>
+                        <th>Social ($AUD)</th>
+                        <th>Search ($AUD)</th>
+                        <th>TV ($AUD)</th>
+                        <th>Radio ($AUD)</th>
+                        <th>Outdoor ($AUD)</th>
+                        <th>Content ($AUD)</th>
+                        <th>Sponsorship ($AUD)</th>
+                        <th>Total ($AUD)</th>
+                    </tr>
+                </thead>
+                <tbody id="media-investment-table-body">
+                    <tr><td colspan="10" class="loading">Loading media investment...</td></tr>
+                </tbody>
+            </table>
+        </div>
+
+        <div class="panel" style="grid-column: 1 / -1;">
+            <h2>🏆 Awards & Rankings Comparison</h2>
+            <table class="fee-table" style="width: 100%;">
+                <thead>
+                    <tr>
+                        <th>Competitor</th>
+                        <th title="Chant West">⭐ Chant West</th>
+                        <th title="Canstar">🌟 Canstar</th>
+                        <th title="SuperRatings">💎 SuperRatings</th>
+                        <th title="Morningstar">☀️ Morningstar</th>
+                        <th title="Money Magazine">💰 Money Magazine</th>
+                        <th>Overall Score</th>
+                    </tr>
+                </thead>
+                <tbody id="awards-table-body">
+                    <tr><td colspan="7" class="loading">Loading awards...</td></tr>
+                </tbody>
+            </table>
+        </div>
     </div>
     
     <script>
@@ -273,6 +588,11 @@
             
             loadCompetitors();
             loadChanges();
+            loadFees();
+            loadPerformance();
+            loadEducation();
+            loadMediaInvestment();
+            loadAwards();
         }
         
         function loadCompetitors() {
@@ -330,6 +650,218 @@
                     });
                 })
                 .catch(error => console.error('Error loading changes:', error));
+        }
+        
+        function loadFees() {
+            fetch('/api/fees')
+                .then(response => response.json())
+                .then(data => {
+                    populateFeeTable('admin-fees-table-body', data.admin);
+                    populateFeeTable('investment-fees-table-body', data.investment);
+                    populateFeeTable('pension-fees-table-body', data.pension);
+                    populateBonusTable('pension-bonus-table-body', data.bonus);
+                })
+                .catch(error => console.error('Error loading fees:', error));
+        }
+        
+        function populateFeeTable(tableBodyId, feeData) {
+            const tbody = document.getElementById(tableBodyId);
+            tbody.innerHTML = '';
+            
+            if (feeData.length === 0) {
+                tbody.innerHTML = '<tr><td colspan="2" class="loading">No fee data available</td></tr>';
+                return;
+            }
+            
+            // Find the lowest fee
+            const lowestFee = Math.min(...feeData.map(f => f.fee));
+            
+            feeData.forEach(fee => {
+                const row = document.createElement('tr');
+                const isLowest = fee.fee === lowestFee;
+                const lowestBadge = isLowest ? '<span class="fee-lowest">LOWEST</span>' : '';
+                
+                row.innerHTML = `
+                    <td>${fee.name} ${lowestBadge}</td>
+                    <td class="fee-value">${fee.fee.toFixed(2)}%</td>
+                `;
+                tbody.appendChild(row);
+            });
+        }
+        
+        function populateBonusTable(tableBodyId, bonusData) {
+            const tbody = document.getElementById(tableBodyId);
+            tbody.innerHTML = '';
+            
+            if (bonusData.length === 0) {
+                tbody.innerHTML = '<tr><td colspan="2" class="loading">No bonus data available</td></tr>';
+                return;
+            }
+            
+            // Find the highest bonus (best for members)
+            const highestBonus = Math.max(...bonusData.map(b => b.bonus));
+            
+            bonusData.forEach(bonus => {
+                const row = document.createElement('tr');
+                const isHighest = bonus.bonus === highestBonus;
+                const highestBadge = isHighest ? '<span class="fee-lowest">HIGHEST</span>' : '';
+                
+                row.innerHTML = `
+                    <td>${bonus.name} ${highestBadge}</td>
+                    <td class="fee-value">${bonus.bonus.toFixed(2)}%</td>
+                `;
+                tbody.appendChild(row);
+            });
+        }
+        
+        function loadPerformance() {
+            fetch('/api/performance')
+                .then(response => response.json())
+                .then(data => {
+                    populatePerformanceTable('balanced-performance-table-body', data.balanced);
+                    populatePerformanceTable('growth-performance-table-body', data.growth);
+                    populatePerformanceTable('high-growth-performance-table-body', data.high_growth);
+                    populatePerformanceTable('conservative-performance-table-body', data.conservative);
+                })
+                .catch(error => console.error('Error loading performance:', error));
+        }
+        
+        function populatePerformanceTable(tableBodyId, performanceData) {
+            const tbody = document.getElementById(tableBodyId);
+            tbody.innerHTML = '';
+            
+            if (performanceData.length === 0) {
+                tbody.innerHTML = '<tr><td colspan="2" class="loading">No performance data available</td></tr>';
+                return;
+            }
+            
+            // Find the highest return (best for members)
+            const highestReturn = Math.max(...performanceData.map(p => p.return));
+            
+            performanceData.forEach(performance => {
+                const row = document.createElement('tr');
+                const isHighest = performance.return === highestReturn;
+                const highestBadge = isHighest ? '<span class="performance-highest">HIGHEST</span>' : '';
+                
+                row.innerHTML = `
+                    <td>${performance.name} ${highestBadge}</td>
+                    <td class="performance-value">${performance.return.toFixed(2)}%</td>
+                `;
+                tbody.appendChild(row);
+            });
+        }
+        
+        function loadEducation() {
+            fetch('/api/education')
+                .then(response => response.json())
+                .then(data => {
+                    // Populate all education category tables
+                    populateEducationTable(data, 'hub-content', 'hub_content');
+                    populateEducationTable(data, 'readiness-tools', 'readiness_tools');
+                    populateEducationTable(data, 'planning-journeys', 'planning_journeys');
+                    populateEducationTable(data, 'seminars', 'seminars');
+                    populateEducationTable(data, 'age-communications', 'age_communications');
+                    populateEducationTable(data, 'age-pension', 'age_pension_education');
+                })
+                .catch(error => console.error('Error loading education data:', error));
+        }
+        
+        function populateEducationTable(educationData, tableBodyId, category) {
+            const tbody = document.getElementById(tableBodyId + '-table-body');
+            tbody.innerHTML = '';
+            
+            if (educationData.length === 0) {
+                tbody.innerHTML = '<tr><td colspan="2" class="loading">No education data available</td></tr>';
+                return;
+            }
+            
+            // Find the highest score in this category
+            const scores = educationData.map(e => e[category]);
+            const highestScore = Math.max(...scores);
+            
+            educationData.forEach(education => {
+                const score = education[category];
+                const row = document.createElement('tr');
+                const isHighest = score === highestScore;
+                const highestBadge = isHighest ? '<span class="performance-highest">HIGHEST</span>' : '';
+                
+                row.innerHTML = `
+                    <td>${education.name} ${highestBadge}</td>
+                    <td class="performance-value">${score}</td>
+                `;
+                tbody.appendChild(row);
+            });
+        }
+
+        function loadMediaInvestment() {
+            fetch('/api/media')
+                .then(response => response.json())
+                .then(data => {
+                    const tbody = document.getElementById('media-investment-table-body');
+                    tbody.innerHTML = '';
+
+                    if (data.length === 0) {
+                        tbody.innerHTML = '<tr><td colspan="10" class="loading">No media investment data available</td></tr>';
+                        return;
+                    }
+
+                    const highestTotal = Math.max(...data.map(item => item.total_spend));
+
+                    data.forEach(item => {
+                        const row = document.createElement('tr');
+                        const isTop = item.total_spend === highestTotal;
+                        const topBadge = isTop ? '<span class="performance-highest">TOP</span>' : '';
+
+                        row.innerHTML = `
+                            <td>${item.name} ${topBadge}</td>
+                            <td>$${(item.digital * 1000000).toLocaleString()}</td>
+                            <td>$${(item.social * 1000000).toLocaleString()}</td>
+                            <td>$${(item.search * 1000000).toLocaleString()}</td>
+                            <td>$${(item.tv * 1000000).toLocaleString()}</td>
+                            <td>$${(item.radio * 1000000).toLocaleString()}</td>
+                            <td>$${(item.outdoor * 1000000).toLocaleString()}</td>
+                            <td>$${(item.content * 1000000).toLocaleString()}</td>
+                            <td>$${(item.sponsorship * 1000000).toLocaleString()}</td>
+                            <td><strong>$${(item.total_spend * 1000000).toLocaleString()}</strong></td>
+                        `;
+                        tbody.appendChild(row);
+                    });
+                })
+                .catch(error => console.error('Error loading media investment data:', error));
+        }
+
+        function loadAwards() {
+            fetch('/api/awards')
+                .then(response => response.json())
+                .then(data => {
+                    const tbody = document.getElementById('awards-table-body');
+                    tbody.innerHTML = '';
+
+                    if (data.length === 0) {
+                        tbody.innerHTML = '<tr><td colspan="7" class="loading">No awards data available</td></tr>';
+                        return;
+                    }
+
+                    const highestOverall = Math.max(...data.map(a => a.overall_score));
+
+                    data.forEach(award => {
+                        const row = document.createElement('tr');
+                        const isTop = award.overall_score === highestOverall;
+                        const topBadge = isTop ? '<span class="performance-highest">TOP</span>' : '';
+
+                        row.innerHTML = `
+                            <td>${award.name} ${topBadge}</td>
+                            <td>${award.chant_west}</td>
+                            <td>${award.canstar}</td>
+                            <td>${award.superratings}</td>
+                            <td>${award.morningstar}</td>
+                            <td>${award.money_magazine}</td>
+                            <td><strong>${award.overall_score.toFixed(1)}</strong></td>
+                        `;
+                        tbody.appendChild(row);
+                    });
+                })
+                .catch(error => console.error('Error loading awards data:', error));
         }
         
         function triggerMonitoring() {
